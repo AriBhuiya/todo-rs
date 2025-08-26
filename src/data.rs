@@ -2,14 +2,15 @@ use chrono::{DateTime, Local};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Lists{
-    pub list: Vec<TodoList>
+pub struct App{
+    pub lists: Vec<TodoList>,
+    pub active_list_name: Option<String>,
 }
 #[derive(Serialize, Deserialize, Debug)]
 pub struct TodoList{
     pub name: String,
     created_at: DateTime<Local>,
-    items: Vec<TodoItem>,
+    pub(crate) items: Vec<TodoItem>,
 }
 
 impl TodoList {
@@ -23,9 +24,9 @@ impl TodoList {
 }
 #[derive(Serialize, Deserialize, Debug)]
 pub struct TodoItem {
-    name: String,
+    pub(crate) name: String,
     description: String,
-    status: ItemStatus,
+    pub(crate) status: ItemStatus,
 }
 
 impl TodoItem {

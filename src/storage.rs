@@ -1,6 +1,5 @@
 use std::fs::{self, File};
 use std::io::Write;
-use std::path::{Path, PathBuf};
 
 pub struct Storage {
     pub name: String,
@@ -8,7 +7,8 @@ pub struct Storage {
 }
 
 impl Storage {
-    pub fn new(name: &str) -> Self {
+    pub fn get(initial_data_if_not_exists:String) -> Self {
+        let name = "data";
         let home_dir = dirs::home_dir().expect("Could not find home directory");
         let dir_path = home_dir.join(".todo");
 
@@ -23,7 +23,7 @@ impl Storage {
         // Create file if it doesn't exist
         if !file_path.exists() {
             let mut file = File::create(&file_path).expect("Failed to create todo file");
-            file.write_all(b"[]").expect("Failed to write initial contents");
+            file.write_all(initial_data_if_not_exists).expect("Failed to write initial contents");
         }
 
         Self {
